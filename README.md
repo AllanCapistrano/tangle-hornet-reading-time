@@ -23,5 +23,17 @@ We recommend you update Go [to the latest stable version to use the library](htt
    go run main.go
    ```
 
+### Using parameters
+| Parameter | Description |
+| --------- | ----------- | 
+| qtm | Number of messages that will be created |
+| idx | Message index |
+
+Example:
+
+ ```powershell
+   go run main.go -qtm=15 -idx=MyIndex
+   ```
+
 ## License
 The MIT license can be found [here](./LICENSE).
