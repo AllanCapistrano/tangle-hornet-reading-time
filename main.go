@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -16,24 +17,39 @@ const DIRECTORY_NAME = "files"
 
 func main() {
 	var amountMessagesInString string
+	var amountMessages int
 	var index string
 
 	nodeURL := "http://127.0.0.1:14265"
 
-	fmt.Print("Digite quantas mensagens você quer gerar: ")
-	fmt.Scanln(&amountMessagesInString)
+	amountMessagesParameter := flag.Int("qtm", -1, "Quantidade de mensagens")
+	indexParameter := flag.String("idx", "", "Índice das mensagens")
 
-	amountMessages, err := strconv.Atoi(amountMessagesInString)
-	if err != nil {
-		log.Fatal(err)
+	flag.Parse()
+	
+	if (*amountMessagesParameter == -1) {
+		var err error
+		fmt.Print("Digite quantas mensagens você quer gerar: ")
+		fmt.Scanln(&amountMessagesInString)
+
+		amountMessages, err = strconv.Atoi(amountMessagesInString)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		amountMessages = *amountMessagesParameter
 	}
 
 	if amountMessages < 0 {
 		log.Fatal("invalid amount of messages")
 	}
 
-	fmt.Print("Digite o índice para as mensagens: ")
-	fmt.Scanln(&index)
+	if (*indexParameter == "") {
+		fmt.Print("Digite o índice para as mensagens: ")
+		fmt.Scanln(&index)
+	} else {
+		index = *indexParameter
+	}
 
 	message := "{\"available\":true,\"avgLoad\":3,\"createdAt\":1695652263921,\"group\":\"group3\",\"lastLoad\":4,\"publishedAt\":1695652267529,\"source\":\"source4\",\"type\":\"LB_STATUS\"}"
 
